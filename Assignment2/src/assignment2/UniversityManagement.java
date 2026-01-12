@@ -1,0 +1,222 @@
+package assignment2;
+
+
+import java.util.*;
+import java.util.regex.Pattern;
+
+
+interface StudentOperations {
+    void addStudent();
+    void displayStudents();
+    void searchStudent(int id);
+    void removeStudent(int id);
+}
+
+
+class Student {
+    int id;
+    String name;
+    String course;
+    int marks;
+
+    Student(int id, String name, String course, int marks) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+        this.marks = marks;
+    }
+}
+
+
+public class UniversityManagement implements StudentOperations {
+
+    Scanner sc = new Scanner(System.in);
+
+    // Collections
+    List<Student> arrayList = new ArrayList<>();
+    Vector<Student> vector = new Vector<>();
+    Stack<Student> stack = new Stack<>();
+
+    HashMap<Integer, Student> hashMap = new HashMap<>();
+    Hashtable<Integer, Student> hashtable = new Hashtable<>();
+    TreeMap<Integer, Student> treeMap = new TreeMap<>();
+
+    Set<String> courseSet = new HashSet<>();
+
+    // here REGEX  perform
+    final String NAME_REGEX = "^[A-Za-z ]+$";
+    final String COURSE_REGEX = "^[A-Za-z ]+$";
+
+    public static void main(String[] args) {
+        new UniversityManagement().menu();
+    }
+
+    // Menu or data
+    void menu() {
+        while (true) {
+            try {
+                System.out.println("\n--- University Student Management ---");
+                System.out.println("1. Add Student");
+                System.out.println("2. Display Students");
+                System.out.println("3. Search Student by ID");
+                System.out.println("4. Remove Student by ID");
+                System.out.println("5. Sort Students by Marks");
+                System.out.println("6. Convert HashMap to TreeMap");
+                System.out.println("7. Count Students Course-wise");
+                System.out.println("8. Display All Courses");
+                System.out.println("9. Exit");
+                System.out.print("Enter choice: ");
+
+                int choice = sc.nextInt();
+
+                switch (choice) {
+                    case 1 -> addStudent();
+                    case 2 -> displayStudents();
+                    case 3 -> {
+                        System.out.print("Enter ID: ");
+                        searchStudent(sc.nextInt());
+                    }
+                    case 4 -> {
+                        System.out.print("Enter ID: ");
+                        removeStudent(sc.nextInt());
+                    }
+                    case 5 -> sortByMarks();
+                    case 6 -> convertHashMapToTreeMap();
+                    case 7 -> countCourseWise();
+                    case 8 -> displayCourses();
+                    case 9 -> System.exit(0);
+                    default -> System.out.println("Invalid Choice");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid Input!");
+                sc.nextLine();
+            }
+        }
+    }
+
+    // here  Add Student records program
+    public void addStudent() {
+        try {
+            System.out.print("Enter Student ID: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+
+            if (hashMap.containsKey(id)) {
+                System.out.println("Duplicate ID Not Allowed");
+                return;
+            }
+
+            System.out.print("Enter Name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter Course: ");
+            String course = sc.nextLine();
+
+            System.out.print("Enter Marks: ");
+            int marks = sc.nextInt();
+
+            if (!Pattern.matches(NAME_REGEX, name) ||
+                !Pattern.matches(COURSE_REGEX, course)) {
+                System.out.println("Invalid Name or Course");
+                return;
+            }
+
+            Student s = new Student(id, name, course, marks);
+
+            arrayList.add(s);
+            vector.add(s);
+            stack.push(s);
+
+            hashMap.put(id, s);
+            hashtable.put(id, s);
+
+            courseSet.add(course);
+
+            System.out.println("Student Added Successfully");
+
+        } catch (Exception e) {
+            System.out.println("Error While Adding Student");
+        }
+    }
+
+    // Display Students data
+    public void displayStudents() {
+        if (hashMap.isEmpty()) {
+            System.out.println("No Records Found");
+            return;
+        }
+        for (Student s : hashMap.values()) {
+            print(s);
+        }
+    }
+
+    // here we Search Student by id 
+    public void searchStudent(int id) {
+        Student s = hashMap.get(id);
+        if (s != null) {
+            print(s);
+        } else {
+            System.out.println("Student Not Found");
+        }
+    }
+
+    // here we Remove Student program
+    public void removeStudent(int id) {
+        Student s = hashMap.remove(id);
+        if (s != null) {
+            arrayList.remove(s);
+            vector.remove(s);
+            stack.remove(s);
+            hashtable.remove(id);
+            System.out.println("Student Removed");
+        } else {
+            System.out.println("Student Not Found");
+        }
+    }
+
+    // here we perform Sort by Marks
+    void sortByMarks() {
+        arrayList.sort((a, b) -> b.marks - a.marks);
+        System.out.println("Students Sorted by Marks:");
+        for (Student s : arrayList) {
+            print(s);
+        }
+    }
+
+   
+    void convertHashMapToTreeMap() {
+        treeMap = new TreeMap<>(hashMap);
+        System.out.println("Converted HashMap to TreeMap (Sorted by ID)");
+        for (Student s : treeMap.values()) {
+            print(s);
+        }
+    }
+
+    // here  Course-wise Count no of course 
+    void countCourseWise() {
+        Map<String, Integer> countMap = new HashMap<>();
+        for (Student s : hashMap.values()) {
+            countMap.put(s.course,
+                    countMap.getOrDefault(s.course, 0) + 1);
+        }
+        System.out.println("Course-wise Student Count:");
+        countMap.forEach((k, v) ->
+                System.out.println(k + " : " + v));
+    }
+
+    // here Display Courses for students 
+    void displayCourses() {
+        System.out.println("Unique Courses:");
+        for (String c : courseSet) {
+            System.out.println(c);
+        }
+    }
+
+    // here Print Student data
+    void print(Student s) {
+        System.out.println("ID: " + s.id +
+                ", Name: " + s.name +
+                ", Course: " + s.course +
+                ", Marks: " + s.marks);
+    }
+}
