@@ -1,0 +1,26 @@
+package seleniumDemo;
+
+import java.util.Scanner;
+
+public class testing {
+public static void main(String[] args) {
+	
+Scanner sc = new Scanner(System.in);
+int num = sc.nextInt();
+int newNum = num;
+int reverse;
+while(num!=0) {
+	int lastDigit = num%10;
+	reverse += lastDigit;
+	num/=10;
+}
+  
+  if(newNum == reverse) {
+	  System.out.println("it is palindrome");
+	  
+  }
+  else {
+	  System.out.println("it is not palindrome");
+  }
+}
+}

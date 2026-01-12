@@ -1,0 +1,85 @@
+package com.firstMaven.Selenium;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebElement;
+
+
+
+
+ class AppTest {
+		WebDriver driver = new ChromeDriver();
+		
+    @Test
+    public void login() {
+    
+    	driver.get("https://onlinefeestechnocrats.in/LoginStudent.aspx?type=F");
+    	System.out.println(driver.getTitle());
+    	System.out.println(driver.getCurrentUrl());
+    	System.out.println(driver.getPageSource());
+    	System.out.println(driver.getWindowHandle());
+    	driver.manage().window().maximize();
+    	
+//    	WebElement user = driver.findElement(By.id("Login1_UserName"));
+//    	user.sendKeys("0111CS221106");
+//    	WebElement pass = driver.findElement(By.id("Login1_Password"));
+//    	pass.sendKeys("30072003");
+    	
+    WebElement user = driver.findElement(By.xpath("//input[@id='Login1_UserName']"));
+    user.sendKeys("0111CS221106");
+    WebElement pass = driver.findElement(By.xpath("//input[@id='Login1_Password']"));
+    pass.sendKeys("30072003");
+    WebElement btn = driver.findElement(By.xpath("//input[@id='Login1_LoginButton']"));
+    btn.click();
+
+    System.out.println(user.getCssValue("color"));
+    System.out.println(user.getSize());
+    System.out.println(user.getCssValue("font"));
+
+
+    System.out.println(user.getAttribute("xPath"));
+
+    System.out.println(pass.getText());
+    System.out.println(user.getLocation());
+    System.out.println(pass.getTagName());
+
+    if(pass.isDisplayed()) {
+    	System.out.println(" hey it is able to display");
+    }
+    else {
+    	System.out.println(" ooh No");
+    }
+
+    if(btn.isEnabled()) {
+    	System.out.println(" hey btn  is Enable");
+    }
+    else {
+    	System.out.println(" ooh No");
+    }
+
+    try {
+        Thread.sleep(3000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+
+    	driver.quit();
+    }
+    
+  
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 

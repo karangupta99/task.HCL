@@ -1,0 +1,23 @@
+package SleniumPractice;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebElement;
+
+
+
+public class SeleniumDay2 {
+public static void main(String[] args) {
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://www.google.com");
+	System.out.println(driver.getTitle());
+	System.out.println(driver.getCurrentUrl());
+	System.out.println(driver.getPageSource());
+	System.out.println(driver.getWindowHandle());
+	driver.manage().window().maximize();
+	
+	driver.close();
+}
+}
+
