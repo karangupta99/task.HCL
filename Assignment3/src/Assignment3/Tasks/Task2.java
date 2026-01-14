@@ -4,7 +4,8 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 public class Task2 {
-	Vector<Integer> v1 = new Vector<>();
+	public static void main(String[] args){
+ Vector<Integer> v1 = new Vector<>();
 
     Vector<Integer> v2 = new Vector<>(5);
     
